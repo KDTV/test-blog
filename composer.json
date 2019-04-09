@@ -1,0 +1,12 @@
+{
+    "name": "kevin/blog",
+    "description": "Test blog",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Kevin Torres",
+            "email": "kdtorresv@hotmail.com"
+        }
+    ],
+    "require": {}
+}
