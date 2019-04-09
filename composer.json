@@ -10,5 +10,10 @@
     ],
     "require": {
         "twig/twig": "^2.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "KDTV\\Blog": "src"
+        }
     }
 }
