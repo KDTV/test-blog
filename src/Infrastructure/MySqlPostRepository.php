@@ -14,11 +14,37 @@ final class MySqlPostRepository implements PostRepository
     public function __construct()
     {
         $this->dbh = new PDO('mysql:host=127.0.0.1:3306;dbname=blog', 'root', 'password');
+        $this->dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     }
 
     public function save(Post $post): void
     {
-        // TODO: Implement save() method.
+        try{
+            $statement = $this->insertOrUpdate($post);
+
+            $statement->bindParam(':title', $post->getTitle());
+            $statement->bindParam(':author', $post->getAuthor());
+            $statement->bindParam(':content', $post->getContent());
+            $statement->bindParam(':tags', $post->getTags());
+
+            $result = $statement->execute();
+
+        } catch (\Exception $e){
+
+        }
+    }
+
+    private function insertOrUpdate(Post $post){
+        if(is_null($post->getId()) || $post->getId() <= 0){
+            return $this->dbh->prepare('INSERT INTO post (title, author, content, tags) 
+VALUES (:title, :author, :content, :tags)');
+        } else {
+            $statement = $this->dbh->prepare('UPDATE post SET title = :title, author = :author,
+content = :content, tags = :tags where id = :id');
+            $statement->bindParam(':id', $post->getId());
+
+            return $statement;
+        }
     }
 
     public function list(): array
@@ -51,7 +77,7 @@ final class MySqlPostRepository implements PostRepository
     {
         $post = new Post();
 
-        $post->setId($data['id']);
+        $post->setId(intval($data['id']));
         $post->setTitle($data['title']);
         $post->setAuthor($data['author']);
         $post->setContent($data['content']);

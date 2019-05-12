@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test Blog{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% if error %}
+            <div class="notification is-danger">
+                <p><strong>{{ error }}</strong></p>
+            </div>
+        {% endif %}
+        <form action="index.php?action=new" method="POST">
+            <input type="hidden" name="id" value="{{ post.id }}">
+            <div class="field">
+                <label class="label">T&iacute;tulo</label>
+                <div class="control">
+                    <input class="input" type="text" name="title" placeholder="T&iacute;tulo" value="{{ post.title }}">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Autor</label>
+                <div class="control">
+                    <input class="input" type="text" name="author" placeholder="Autor" value="{{ post.author }}">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Contenido</label>
+                <div class="control">
+                    <textarea class="textarea" name="content" placeholder="Textarea">{{ post.content }}</textarea>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Tags</label>
+                <div class="control">
+                    <input class="input" type="text" name="tags" placeholder="Text input" value="{{ post.tags }}">
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-link">Submit</button>
+                </div>
+                <div class="control">
+                    <a href="index.php" class="button is-text">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

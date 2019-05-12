@@ -18,47 +18,47 @@ final class Post
         return $this->id;
     }
 
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getTitle()
+    public function getTitle():?string
     {
         return $this->title;
     }
 
-    public function setTitle($title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function getAuthor()
+    public function getAuthor():?string
     {
         return $this->author;
     }
 
-    public function setAuthor($author): void
+    public function setAuthor(string $author): void
     {
         $this->author = $author;
     }
 
-    public function getContent()
+    public function getContent():?string
     {
         return $this->content;
     }
 
-    public function setContent($content): void
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
 
-    public function getTags()
+    public function getTags():?string
     {
         return $this->tags;
     }
 
-    public function setTags($tags): void
+    public function setTags(string $tags): void
     {
         $this->tags = $tags;
     }
