@@ -6,14 +6,18 @@
     <section class="hero">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">Test Blog</h1>
+                <h1 class="title is-1">Test Blog</h1>
             </div>
         </div>
     </section>
     <div class="container">
         {% for entry in blog_entries %}
-            <h2>{{ entry.title }}</h2>
-            <p>{{ entry.content }}</p>
+            <h2 class="title">{{ entry.title }}</h2>
+            {% if entry.content|length <= 100 %}
+                <p>{{ entry.content }}</p>
+            {% else %}
+                <p>{{ entry.content|slice(0,100) }} <a href="">M&aacute;s...</a> </p>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
