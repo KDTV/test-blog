@@ -13,7 +13,7 @@ final class MySqlPostRepository implements PostRepository
 
     public function __construct()
     {
-        $this->dbh = new PDO('mysql:host=mysql;dbname=blog', 'root', 'password');
+        $this->dbh = new PDO('mysql:host=127.0.0.1:3306;dbname=blog', 'root', 'password');
     }
 
     public function save(Post $post): void
@@ -25,24 +25,35 @@ final class MySqlPostRepository implements PostRepository
     {
         $entries = [];
         $data = $this->dbh->query("SELECT * FROM post")->fetchAll();
+
         foreach ($data as $row) {
-
-            $entry = new Post();
-
-            $entry->setId($row['id']);
-            $entry->setTitle($row['title']);
-            $entry->setAuthor($row['author']);
-            $entry->setContent($row['content']);
-            $entry->setTags($row['tags']);
-            $entry->setCreatedAt($row['created_at']);
-
-            $entries[] = $entry;
+            $entries[] = $this->parseDataToPost($row);
         }
+
         return $entries;
     }
 
     public function find(int $id): Post
     {
-        // TODO: Implement find() method.
+        $statement = $this->dbh->prepare('SELECT * FROM post WHERE id = :id');
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $this->parseDataToPost($data);
+    }
+
+    private function parseDataToPost(array $data):Post
+    {
+        $post = new Post();
+
+        $post->setId($data['id']);
+        $post->setTitle($data['title']);
+        $post->setAuthor($data['author']);
+        $post->setContent($data['content']);
+        $post->setTags($data['tags']);
+        $post->setCreatedAt($data['created_at']);
+
+        return $post;
     }
 }
