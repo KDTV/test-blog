@@ -11,4 +11,6 @@ interface PostRepository
     public function list(): array;
 
     public function find(int $id): ?Post;
+
+    public function findByAuthor(string $author):array;
 }

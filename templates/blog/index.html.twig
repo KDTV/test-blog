@@ -13,7 +13,7 @@
                 {% if entry.content|length <= 100 %}
                     <p>{{ entry.content }}</p>
                 {% else %}
-                    <p>{{ entry.content|slice(0,100) }} <a href="">M&aacute;s...</a> </p>
+                    <p>{{ entry.content|slice(0,100) }} <a href="index.php?action=view&post={{ entry.id }}">M&aacute;s...</a> </p>
                 {% endif %}
                 {% if admin %}
                     <a href="index.php?action=edit&post={{ entry.id }}">Editar</a>

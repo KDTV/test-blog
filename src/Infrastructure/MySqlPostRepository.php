@@ -73,6 +73,22 @@ content = :content, tags = :tags where id = :id');
         return $this->parseDataToPost($data);
     }
 
+    public function findByAuthor(string $author):array
+    {
+        $statement = $this->dbh->prepare('SELECT * FROM post WHERE author = :author');
+        $statement->bindParam(':author', $author);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $entries = array();
+
+        foreach ($data as $row) {
+            $entries[] = $this->parseDataToPost($row);
+        }
+
+        return $entries;
+    }
+
     private function parseDataToPost(array $data):Post
     {
         $post = new Post();
