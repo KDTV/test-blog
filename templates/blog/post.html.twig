@@ -9,6 +9,8 @@
         <br>
         <a href="index.php?author={{ post.author }}">{{ post.author }}</a>
         <br>
-        <a href="">{{ post.tags }}</a>
+        {% for tag in post.tags %}
+            <a href="index.php?tag={{ tag|trim }}">{{ tag }}</a> &nbsp;
+        {% endfor %}
     </div>
 {% endblock %}

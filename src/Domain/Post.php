@@ -53,9 +53,9 @@ final class Post
         $this->content = $content;
     }
 
-    public function getTags():?string
+    public function getTags():array
     {
-        return $this->tags;
+        return explode(',',$this->tags);
     }
 
     public function setTags(string $tags): void

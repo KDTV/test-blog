@@ -6,6 +6,7 @@ use KDTV\Blog\Application\HomeService;
 use KDTV\Blog\Application\PostAuthorService;
 use KDTV\Blog\Application\PostDetailService;
 use KDTV\Blog\Application\PostSaveService;
+use KDTV\Blog\Application\PostTagService;
 use KDTV\Blog\Domain\Post;
 use KDTV\Blog\Infrastructure\MySqlPostRepository;
 use Twig\Loader\FilesystemLoader;
@@ -79,6 +80,12 @@ if($_GET['action']){
     $postAuthorService = new PostAuthorService($postRepository);
     echo $twig->render('blog/index.html.twig',
         ['blog_entries' => $postAuthorService->__invoke($author)]);
+} else if ($_GET['tag']) {
+    $tag = $_GET['tag'];
+    $postTagService = new PostTagService($postRepository);
+    $homeService = new HomeService($twig, $postRepository);
+    echo $twig->render('blog/index.html.twig',
+        ['blog_entries' => $postTagService->__invoke($tag)]);
 } else {
     $homeService = new HomeService($twig, $postRepository);
     echo $twig->render('blog/index.html.twig',

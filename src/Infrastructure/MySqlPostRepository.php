@@ -89,6 +89,23 @@ content = :content, tags = :tags where id = :id');
         return $entries;
     }
 
+    public function findByTag(string $tag): array
+    {
+        $statement = $this->dbh->prepare('SELECT * FROM post WHERE tags LIKE :tag');
+        $tagParam = '%' . $tag . '%';
+        $statement->bindParam(':tag', $tagParam, PDO::PARAM_STR);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $entries = array();
+
+        foreach ($data as $row) {
+            $entries[] = $this->parseDataToPost($row);
+        }
+
+        return $entries;
+    }
+
     private function parseDataToPost(array $data):Post
     {
         $post = new Post();
