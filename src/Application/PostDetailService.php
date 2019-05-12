@@ -9,24 +9,15 @@ use Twig\Environment;
 
 final class PostDetailService
 {
-    private $twig;
     private $postRepository;
 
-    public function __construct(Environment $twig, PostRepository $postRepository)
+    public function __construct(PostRepository $postRepository)
     {
-        $this->twig = $twig;
         $this->postRepository = $postRepository;
     }
 
-    public function __invoke(int $postId):string
+    public function __invoke(int $postId):Post
     {
-        $post = $this->postRepository->find($postId);
-
-        if(is_null($post)){
-            return $this->twig->render('error404.html.twig');
-        }
-
-        return $this->twig->render('blog/post.html.twig',
-            ['post' => $post]);
+        return $this->postRepository->find($postId);
     }
 }

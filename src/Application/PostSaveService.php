@@ -9,12 +9,10 @@ use Twig\Environment;
 
 final class PostSaveService
 {
-    private $twig;
     private $postRepository;
 
-    public function __construct(Environment $twig, PostRepository $postRepository)
+    public function __construct(PostRepository $postRepository)
     {
-        $this->twig = $twig;
         $this->postRepository = $postRepository;
     }
 

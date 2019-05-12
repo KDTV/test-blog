@@ -17,10 +17,8 @@ final class HomeService
         $this->postRepository = $postRepository;
     }
 
-    public function __invoke(): string
+    public function __invoke(): array
     {
-        $entries = $this->postRepository->list();
-        return $this->twig->render('blog/index.html.twig',
-            ['blog_entries' => $entries]);
+        return $this->postRepository->list();
     }
 }

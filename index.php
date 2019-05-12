@@ -20,8 +20,15 @@ $action = $_GET['action'];
 switch ($action){
     case 'view':
         $post = intval($_GET['post']);
-        $postDetailService = new PostDetailService($twig, $postRepository);
-        echo $postDetailService->__invoke($post);
+        $postDetailService = new PostDetailService($postRepository);
+        $post = $postDetailService->__invoke($post);
+
+        if(is_null($post)){
+            echo $twig->render('error404.html.twig');
+        }
+
+        echo $twig->render('blog/post.html.twig',
+            ['post' => $post]);
         break;
     case 'new':
         if($_POST){
@@ -34,7 +41,7 @@ switch ($action){
                 $post->setContent($_POST['content']);
                 $post->setTags($_POST['tags']);
 
-                $postSaveService = new PostSaveService($twig, $postRepository);
+                $postSaveService = new PostSaveService($postRepository);
 
                 echo $postSaveService->__invoke($post);
                 header('Location: index.php');
@@ -47,9 +54,22 @@ switch ($action){
             echo $twig->render('blog/edit.html.twig', ['post' => new Post()]);
         }
         break;
+    case 'edit':
+        $post = intval($_GET['post']);
+        $postDetailService = new PostDetailService($postRepository);
+        $post = $postDetailService->__invoke($post);
+
+        if(is_null($post)){
+            echo $twig->render('error404.html.twig');
+        }
+
+        echo $twig->render('blog/edit.html.twig',
+            ['post' => $post]);
+        break;
     default:
         $homeService = new HomeService($twig, $postRepository);
-        echo $homeService->__invoke();
+        echo $twig->render('blog/index.html.twig',
+            ['blog_entries' => $homeService->__invoke()]);
 }
 
 
