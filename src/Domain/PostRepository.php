@@ -10,5 +10,5 @@ interface PostRepository
 
     public function list(): array;
 
-    public function find(int $id): Post;
+    public function find(int $id): ?Post;
 }

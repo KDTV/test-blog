@@ -33,12 +33,16 @@ final class MySqlPostRepository implements PostRepository
         return $entries;
     }
 
-    public function find(int $id): Post
+    public function find(int $id): ?Post
     {
         $statement = $this->dbh->prepare('SELECT * FROM post WHERE id = :id');
         $statement->bindParam(':id', $id);
         $statement->execute();
         $data = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if(is_null($data) || empty($data)){
+            return null;
+        }
 
         return $this->parseDataToPost($data);
     }

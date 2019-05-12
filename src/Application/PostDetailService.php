@@ -21,6 +21,11 @@ final class PostDetailService
     public function __invoke(int $postId):string
     {
         $post = $this->postRepository->find($postId);
+
+        if(is_null($post)){
+            return $this->twig->render('error404.html.twig');
+        }
+
         return $this->twig->render('blog/post.html.twig',
             ['post' => $post]);
     }
