@@ -16,7 +16,7 @@ final class PostDetailService
         $this->postRepository = $postRepository;
     }
 
-    public function __invoke(int $postId):Post
+    public function __invoke(int $postId):?Post
     {
         return $this->postRepository->find($postId);
     }

@@ -55,16 +55,21 @@ switch ($action){
         }
         break;
     case 'edit':
-        $post = intval($_GET['post']);
+        $postId = intval($_GET['post']);
         $postDetailService = new PostDetailService($postRepository);
-        $post = $postDetailService->__invoke($post);
-
+        $post = $postDetailService->__invoke($postId);
         if(is_null($post)){
             echo $twig->render('error404.html.twig');
+        } else {
+            echo $twig->render('blog/edit.html.twig',
+                ['post' => $post]);
         }
-
-        echo $twig->render('blog/edit.html.twig',
-            ['post' => $post]);
+        break;
+    case 'admin':
+        $homeService = new HomeService($twig, $postRepository);
+        echo $twig->render('blog/index.html.twig',
+            ['blog_entries' => $homeService->__invoke(),
+                'admin' => true]);
         break;
     default:
         $homeService = new HomeService($twig, $postRepository);

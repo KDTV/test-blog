@@ -4,13 +4,21 @@
 
 {% block body %}
     <div class="container">
+        {% if admin %}
+            <h2 class="title is-2">Modo Administrador</h2>
+        {% endif %}
         {% for entry in blog_entries %}
-            <h2 class="title">{{ entry.title }}</h2>
-            {% if entry.content|length <= 100 %}
-                <p>{{ entry.content }}</p>
-            {% else %}
-                <p>{{ entry.content|slice(0,100) }} <a href="">M&aacute;s...</a> </p>
-            {% endif %}
+            <div class="box">
+                <h2 class="title">{{ entry.title }}</h2>
+                {% if entry.content|length <= 100 %}
+                    <p>{{ entry.content }}</p>
+                {% else %}
+                    <p>{{ entry.content|slice(0,100) }} <a href="">M&aacute;s...</a> </p>
+                {% endif %}
+                {% if admin %}
+                    <a href="index.php?action=edit&post={{ entry.id }}">Editar</a>
+                {% endif %}
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
